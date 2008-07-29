@@ -6,7 +6,11 @@
         <![CDATA[
        <p>
        Enhance default surround actions of IntelliJ IDEA by providing action
-       which apply a template to each lines selected.
+       which apply a template to each lines selected.<br />
+
+
+       <b>Beware:</b>
+       Template which uses ${END} don't work correctly
        </p>
        ]]>
     </description>
