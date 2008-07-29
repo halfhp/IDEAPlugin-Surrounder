@@ -43,8 +43,11 @@ public class SurroundForEachLineTemplateHandler implements
             String selectedText = editor.getSelectionModel().getSelectedText();
 
             String[] selectedLines;
-            if (selectedText != null && template.isToReformat()) {
-                selectedText = selectedText.trim();
+            if (selectedText != null) {
+                if (template.isToReformat()) {
+
+                    selectedText = selectedText.trim();
+                }
                 selectedLines = selectedText.split("\n");
             } else {
                 selectedLines = new String[0];
@@ -53,7 +56,8 @@ public class SurroundForEachLineTemplateHandler implements
 
             for (int i = 0; i < selectedLines.length; i++) {
                 TemplateManager.getInstance(project)
-                        .startTemplate(editor, selectedLines[i], template);
+                        .startTemplate(editor, selectedLines[i].trim(),
+                                template);
                 //TODO add \n between each line
             }
         }
