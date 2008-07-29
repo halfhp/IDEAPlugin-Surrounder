@@ -1,0 +1,36 @@
+<!DOCTYPE idea-plugin PUBLIC "Plugin/DTD"
+        "http://plugins.intellij.net/plugin.dtd">
+<idea-plugin url="http://code.google.com/p/surrounder/">
+    <name>Surrounder</name>
+    <description>
+        <![CDATA[
+       <p>
+       Enhance default surround actions of IntelliJ IDEA by providing action
+       which apply a template to each lines selected.
+       </p>
+       ]]>
+    </description>
+    <!--<change-notes>-->
+    <!--<![CDATA[-->
+    <!--<p>-->
+    <!--<h4>Version 1.2</h4>-->
+    <!---->
+    <!--</p>-->
+    <!--]]>-->
+    <!--</change-notes>-->
+
+    <version>1.0</version>
+    <vendor email="osmedile@gmail.com">Olivier Smedile</vendor>
+    <idea-version since-build="7361" />
+    <module-components>
+
+    </module-components>
+    <actions>
+        <action id="surroundForEachLine"
+                class="osmedile.intellij.surrounder.SurroundForEachLineAction"
+                text="Surround for each line"
+                description="Surround for each line">
+            <add-to-group group-id="CodeMenu" anchor="last" />
+        </action>
+    </actions>
+</idea-plugin>
