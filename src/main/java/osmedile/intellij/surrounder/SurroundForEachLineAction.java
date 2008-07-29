@@ -20,8 +20,7 @@ public class SurroundForEachLineAction extends BaseCodeInsightAction {
     }
 
     protected CodeInsightActionHandler getHandler() {
-        return null;
-//        return new SurroundForEachLineHandler();
+        return new SurroundForEachLineTemplateHandler();
     }
 
     protected boolean isValidForFile(Project project, Editor editor,

@@ -22,7 +22,9 @@
     <version>1.0</version>
     <vendor email="osmedile@gmail.com">Olivier Smedile</vendor>
     <idea-version since-build="7361" />
+
     <module-components>
+
 
     </module-components>
     <actions>
