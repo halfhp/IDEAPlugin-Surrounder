@@ -9,8 +9,11 @@
        which apply a template to each lines selected.<br />
 
 
-       <b>Beware:</b>
-       Template which uses ${END} don't work correctly
+       <b>Current limitations:</b>
+       <ul>
+       <li>Template which uses ${END} don't work correctly</li>
+       <li>Line breaks are not preserved</li>
+       </ul>
        </p>
        ]]>
     </description>
