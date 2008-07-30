@@ -1,12 +1,12 @@
 package osmedile.intellij.surrounder;
 
 import com.intellij.codeInsight.CodeInsightActionHandler;
+import com.intellij.codeInsight.actions.BaseCodeInsightAction;
 import com.intellij.lang.Language;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiJavaFile;
-import osmedile.intellij.surrounder.idea.BaseCodeInsightAction;
 
 /**
  * @author Olivier Smedile
