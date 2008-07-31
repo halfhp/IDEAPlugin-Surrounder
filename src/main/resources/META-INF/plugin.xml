@@ -36,7 +36,7 @@
     </module-components>
     <actions>
         <action id="surroundForEachLine"
-                class="osmedile.intellij.surrounder.SurroundForEachLineAction"
+                class="osmedile.intellij.surrounder.TemplateSurroundForEachLineAction"
                 text="Surround for each line"
                 description="Surround for each line">
             <add-to-group group-id="CodeMenu" anchor="last" />

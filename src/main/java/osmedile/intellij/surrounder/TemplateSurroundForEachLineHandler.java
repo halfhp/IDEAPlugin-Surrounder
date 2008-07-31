@@ -31,7 +31,7 @@ import java.util.Set;
  * @version $Id$
  */
 @SuppressWarnings({"UnresolvedPropertyKey"})
-public class SurroundForEachLineTemplateHandler implements
+public class TemplateSurroundForEachLineHandler implements
         CodeInsightActionHandler {
 
 
@@ -86,7 +86,7 @@ public class SurroundForEachLineTemplateHandler implements
         public InvokeTemplateAction(TemplateImpl templateimpl, Editor editor,
                                     Project project, Set<Character> set) {
             super((new StringBuilder())
-                    .append(SurroundForEachLineTemplateHandler.a(templateimpl,
+                    .append(TemplateSurroundForEachLineHandler.a(templateimpl,
                             set))
                     .append(templateimpl.getDescription()).toString());
             template = templateimpl;
@@ -95,7 +95,7 @@ public class SurroundForEachLineTemplateHandler implements
         }
     }
 
-    public SurroundForEachLineTemplateHandler() {
+    public TemplateSurroundForEachLineHandler() {
     }
 
 // --------------------- METHODS ---------------------
