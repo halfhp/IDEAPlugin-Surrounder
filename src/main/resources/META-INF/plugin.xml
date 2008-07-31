@@ -11,7 +11,7 @@
 
        <b>Current limitations:</b>
        <ul>
-       <li>Template which uses ${END} don't work correctly</li>
+       <li>Templates which uses $END$ don't work correctly</li>
        <li>Line breaks are not preserved</li>
        </ul>
        </p>
