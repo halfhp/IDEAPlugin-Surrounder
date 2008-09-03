@@ -1,7 +1,7 @@
 <!DOCTYPE idea-plugin PUBLIC "Plugin/DTD"
         "http://plugins.intellij.net/plugin.dtd">
 <idea-plugin url="http://code.google.com/p/surrounder/">
-    <name>Surrounder</name>
+    <name>Surround each line</name>
     <description>
         <![CDATA[
        <p>
@@ -35,10 +35,16 @@
 
     </module-components>
     <actions>
-        <action id="surroundForEachLine"
-                class="osmedile.intellij.surrounder.TemplateSurroundForEachLineAction"
-                text="Surround for each line"
-                description="Surround for each line">
+        <action id="osmedile.intellij.surrounder.TemplateSurroundEachLineAction"
+                class="osmedile.intellij.surrounder.TemplateSurroundEachLineAction"
+                text="Surround each line (remove last semicolon)"
+                description="Surround each line (remove last semicolon)">
+            <add-to-group group-id="CodeMenu" anchor="last" />
+            <keyboard-shortcut first-keystroke="shift ctrl alt J" keymap="$default" />
+        </action>
+        <action id="osmedile.intellij.surrounder.SurroundEachLinePreserveTextAction"
+                class="osmedile.intellij.surrounder.SurroundEachLinePreserveTextAction"
+                text="Surround each line" description="Surround each line">
             <add-to-group group-id="CodeMenu" anchor="last" />
         </action>
     </actions>

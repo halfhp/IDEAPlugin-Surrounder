@@ -12,15 +12,15 @@ import com.intellij.psi.PsiJavaFile;
  * @author Olivier Smedile
  * @version $Id$
  */
-public class TemplateSurroundForEachLineAction extends BaseCodeInsightAction {
+public class TemplateSurroundEachLineAction extends BaseCodeInsightAction {
 
 
-    public TemplateSurroundForEachLineAction() {
+    public TemplateSurroundEachLineAction() {
         setEnabledInModalContext(true);
     }
 
     protected CodeInsightActionHandler getHandler() {
-        return new TemplateSurroundForEachLineHandler();
+        return new TemplateSurroundEachLineHandler(true);
     }
 
     protected boolean isValidForFile(Project project, Editor editor,

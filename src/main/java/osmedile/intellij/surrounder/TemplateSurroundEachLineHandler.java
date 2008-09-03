@@ -31,21 +31,28 @@ import java.util.Set;
  * @version $Id$
  */
 @SuppressWarnings({"UnresolvedPropertyKey"})
-public class TemplateSurroundForEachLineHandler implements
+public class TemplateSurroundEachLineHandler implements
         CodeInsightActionHandler {
+    private boolean removedLastSemiColon = true;
 
+    /**
+     * True if the semi-colon at the end of the line must be removed
+     */
+    public boolean getRemoveEndSemicolon() {
+        return removedLastSemiColon;
+    }
 
-    private static class InvokeTemplateAction extends AnAction {
+    private class InvokeTemplateAction extends AnAction {
         public void actionPerformed(AnActionEvent anactionevent) {
             //Modified from original SurroundWithTemplateHandler
             //Split each line of text
 
             String selectedText = editor.getSelectionModel().getSelectedText();
+//            int originalEndOffset = editor.getSelectionModel().getSelectionEnd();
 
             final String[] selectedLines;
             if (selectedText != null) {
                 if (template.isToReformat()) {
-
                     selectedText = selectedText.trim();
                 }
                 selectedLines = selectedText.split("\n");
@@ -53,28 +60,20 @@ public class TemplateSurroundForEachLineHandler implements
                 selectedLines = new String[0];
             }
 
-//            CommandProcessor.getInstance().executeCommand(project, new Runnable() {
-//
-//                public void run() {
-//                    ApplicationManager.getApplication().runWriteAction(
-//                    new Runnable() {
-//                        public void run() {
-//            FileDocumentManager.getInstance().saveDocument(editor.getDocument());
 
-            //TODO try to use DocumentListener to manage template with $END$
+            for (String selectedLine : selectedLines) {
+                String s = selectedLine.trim();
+                if (getRemoveEndSemicolon() && s.endsWith(";")) {
+                    TemplateManager.getInstance(project)
+                            .startTemplate(editor,
+                                    s.substring(0, s.length() - 1), template);
+                } else {
+                    TemplateManager.getInstance(project)
+                            .startTemplate(editor, s, template);
+                }
 
-            for (int i = 0; i < selectedLines.length; i++) {
-                TemplateManager.getInstance(project)
-                        .startTemplate(editor,
-                                selectedLines[i].trim(),
-                                template);
+//                editor.getCaretModel().moveToOffset(originalEndOffset);
             }
-//                        }
-//                    }
-//            );
-//                }
-//
-//            }, "foo", null);
 
 
         }
@@ -86,7 +85,7 @@ public class TemplateSurroundForEachLineHandler implements
         public InvokeTemplateAction(TemplateImpl templateimpl, Editor editor,
                                     Project project, Set<Character> set) {
             super((new StringBuilder())
-                    .append(TemplateSurroundForEachLineHandler.a(templateimpl,
+                    .append(TemplateSurroundEachLineHandler.setMnemonic(templateimpl,
                             set))
                     .append(templateimpl.getDescription()).toString());
             template = templateimpl;
@@ -95,12 +94,13 @@ public class TemplateSurroundForEachLineHandler implements
         }
     }
 
-    public TemplateSurroundForEachLineHandler() {
+    public TemplateSurroundEachLineHandler(boolean removedLastSemiColon) {
+        this.removedLastSemiColon = removedLastSemiColon;
     }
 
-// --------------------- METHODS ---------------------
+    // --------------------- METHODS ---------------------
 
-    private static String a(TemplateImpl templateimpl, Set<Character> set) {
+    private static String setMnemonic(TemplateImpl templateimpl, Set<Character> set) {
         String s = templateimpl.getKey();
         if (StringUtil.isEmpty(s)) {
             return "";
@@ -178,12 +178,12 @@ public class TemplateSurroundForEachLineHandler implements
                         new Object[0]), defaultactiongroup, DataManager
                         .getInstance().getDataContext(
                         editor.getContentComponent()),
-                        com.intellij.openapi.ui.popup.JBPopupFactory.ActionSelectionAid.MNEMONICS,
+                        JBPopupFactory.ActionSelectionAid.MNEMONICS,
                         false);
         listpopup.showInBestPositionFor(editor);
     }
 
     public boolean startInWriteAction() {
-        return true;
+        return removedLastSemiColon;
     }
 }
