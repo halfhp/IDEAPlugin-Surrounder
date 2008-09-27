@@ -106,6 +106,7 @@ public class TemplateSurroundEachLineHandler implements CodeInsightActionHandler
                 }
 
                 sb.append(currentTpl);
+                sb.append("\n");
             }
             //Set the new template
             t.setString(sb.toString());
