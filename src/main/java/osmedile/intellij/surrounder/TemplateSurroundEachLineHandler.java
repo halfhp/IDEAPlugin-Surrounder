@@ -7,6 +7,7 @@ import com.intellij.codeInsight.hint.HintManager;
 import com.intellij.codeInsight.template.TemplateManager;
 import com.intellij.codeInsight.template.impl.TemplateImpl;
 import com.intellij.codeInsight.template.impl.TemplateSettings;
+import com.intellij.codeInsight.template.impl.Variable;
 import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -24,6 +25,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -31,8 +33,7 @@ import java.util.Set;
  * @version $Id$
  */
 @SuppressWarnings({"UnresolvedPropertyKey"})
-public class TemplateSurroundEachLineHandler implements
-        CodeInsightActionHandler {
+public class TemplateSurroundEachLineHandler implements CodeInsightActionHandler {
     private boolean removedLastSemiColon = true;
 
     /**
@@ -60,20 +61,62 @@ public class TemplateSurroundEachLineHandler implements
                 selectedLines = new String[0];
             }
 
+            //create a new template to apply it as a global template to all lines.
+            TemplateImpl t = template.copy();
+            int nbLines = selectedLines.length;
+            int nbVars = t.getVariableCount();
 
-            for (String selectedLine : selectedLines) {
-                String s = selectedLine.trim();
-                if (getRemoveEndSemicolon() && s.endsWith(";")) {
-                    TemplateManager.getInstance(project)
-                            .startTemplate(editor,
-                                    s.substring(0, s.length() - 1), template);
-                } else {
-                    TemplateManager.getInstance(project)
-                            .startTemplate(editor, s, template);
+            StringBuilder sb = new StringBuilder();
+
+            List<Variable> variables = new ArrayList<Variable>();
+            for (int i = 0; i < nbVars; i++) {
+                final String varName = t.getVariableNameAt(i);
+                if (!"SELECTION".equals(varName) && !"END".equals(varName)) {
+                    variables.add(new Variable(varName, t.getExpressionStringAt(i),
+                            t.getDefaultValueStringAt(i), t.isAlwaysStopAt(i)));
+                }
+            }
+
+            //Remove existant variables (like SELECTION or END);
+            t.removeAllParsed();
+
+            //Save template with all $END$ removed
+            String template = t.getString().replace("$END$", "");
+
+
+            for (int line = 0; line < nbLines; line++) {
+
+                //Remove last semicolon?
+                String l = selectedLines[line].trim();
+                if (getRemoveEndSemicolon() && l.endsWith(";")) {
+                    l = l.substring(0, l.length() - 1);
                 }
 
-//                editor.getCaretModel().moveToOffset(originalEndOffset);
+                //Replace SELECTION with current line
+                String currentTpl = template.replace("$SELECTION$", l);
+
+                //Replace variable with variable specific for this line
+                //For example: on first line, $VAR$ becomes $VAR_1$
+                for (Variable var : variables) {
+                    final String varName = var.getName();
+                    final String newVarName = varName + "_" + line + "_";
+                    currentTpl = currentTpl.replace("$" + varName + "$", "$" + newVarName + "$");
+                    t.addVariable(newVarName, var.getExpressionString(), var.getDefaultValueString(),
+                            var.isAlwaysStopAt());
+                }
+
+                sb.append(currentTpl);
             }
+            //Set the new template
+            t.setString(sb.toString());
+
+            //Make a copy, otherwise internal variables of template are still set to the first value
+            // of the template
+            t = t.copy();
+            t.parseSegments();
+
+            //Apply template on string "", so current SELECTIOn will be deleted
+            TemplateManager.getInstance(project).startTemplate(editor, "", t);
 
 
         }
@@ -86,8 +129,7 @@ public class TemplateSurroundEachLineHandler implements
                                     Project project, Set<Character> set) {
             super((new StringBuilder())
                     .append(TemplateSurroundEachLineHandler.setMnemonic(templateimpl,
-                            set))
-                    .append(templateimpl.getDescription()).toString());
+                            set)).append(templateimpl.getDescription()).toString());
             template = templateimpl;
             this.project = project;
             this.editor = editor;
@@ -110,8 +152,7 @@ public class TemplateSurroundEachLineHandler implements
             if (!set.contains(Character.valueOf(c))) {
                 set.add(c);
                 return (new StringBuilder()).append(s.substring(0, i))
-                        .append('\033').append(s.substring(i)).append(" ")
-                        .toString();
+                        .append('\033').append(s.substring(i)).append(" ").toString();
             }
         }
 
@@ -125,35 +166,31 @@ public class TemplateSurroundEachLineHandler implements
                 return;
             }
         }
-        PsiDocumentManager.getInstance(project)
-                .commitDocument(editor.getDocument());
+        PsiDocumentManager.getInstance(project).commitDocument(editor.getDocument());
         int i = editor.getCaretModel().getOffset();
         int j = TemplateManager.getInstance(project).getContextType(psifile, i);
-        TemplateImpl atemplateimpl[] =
-                TemplateSettings.getInstance().getTemplates();
+        TemplateImpl atemplateimpl[] = TemplateSettings.getInstance().getTemplates();
         ArrayList<TemplateImpl> arraylist = new ArrayList<TemplateImpl>();
         int k = atemplateimpl.length;
         for (int l = 0; l < k; l++) {
             TemplateImpl templateimpl = atemplateimpl[l];
             if (!templateimpl.isDeactivated() &&
-                    templateimpl.getTemplateContext().isInContext(j) &&
-                    templateimpl.isSelectionTemplate()) {
+                    templateimpl.getTemplateContext().isInContext(j) && templateimpl.isSelectionTemplate()) {
                 arraylist.add(templateimpl);
             }
         }
 
+
         if (arraylist.isEmpty()) {
             HintManager.getInstance().showErrorHint(editor,
-                    CodeInsightBundle.message("templates.no.defined",
-                            new Object[0]));
+                    CodeInsightBundle.message("templates.no.defined", new Object[0]));
             return;
         }
         if (!CodeInsightUtil.preparePsiElementForWrite(psifile)) {
             return;
         }
         Collections.sort(arraylist, new Comparator() {
-            public int compare(TemplateImpl templateimpl2,
-                               TemplateImpl templateimpl3) {
+            public int compare(TemplateImpl templateimpl2, TemplateImpl templateimpl3) {
                 return templateimpl2.getKey().compareTo(templateimpl3.getKey());
             }
 
@@ -165,25 +202,20 @@ public class TemplateSurroundEachLineHandler implements
         HashSet<Character> hashset = new HashSet<Character>();
         DefaultActionGroup defaultactiongroup = new DefaultActionGroup();
         TemplateImpl templateimpl1;
-        for (Iterator<TemplateImpl> iterator = arraylist.iterator();
-             iterator.hasNext();
-             defaultactiongroup.add(new InvokeTemplateAction(templateimpl1,
-                     editor, project, hashset))) {
+        for (Iterator<TemplateImpl> iterator = arraylist.iterator(); iterator.hasNext();
+             defaultactiongroup.add(new InvokeTemplateAction(templateimpl1, editor, project, hashset))) {
             templateimpl1 = iterator.next();
         }
 
         ListPopup listpopup = JBPopupFactory.getInstance()
-                .createActionGroupPopup(CodeInsightBundle.message(
-                        "templates.select.template.chooser.title",
-                        new Object[0]), defaultactiongroup, DataManager
-                        .getInstance().getDataContext(
+                .createActionGroupPopup(CodeInsightBundle.message("templates.select.template.chooser.title",
+                        new Object[0]), defaultactiongroup, DataManager.getInstance().getDataContext(
                         editor.getContentComponent()),
-                        JBPopupFactory.ActionSelectionAid.MNEMONICS,
-                        false);
+                        JBPopupFactory.ActionSelectionAid.MNEMONICS, false);
         listpopup.showInBestPositionFor(editor);
     }
 
     public boolean startInWriteAction() {
-        return removedLastSemiColon;
+        return false;
     }
 }
