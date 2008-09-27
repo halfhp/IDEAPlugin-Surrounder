@@ -5,8 +5,8 @@
     <groupId>osmedile.intellij</groupId>
     <artifactId>surrounder</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.0-SNAPSHOT</version>
-    <name>Surrounder</name>
+    <version>1.0-SNAPSHOT</version>
+    <name>Surround each line</name>
 
     <url>http://code.google.com/p/surrounder/</url>
 
@@ -15,8 +15,8 @@
         <encoding>UTF-8</encoding>
         <sourceLevel>1.5</sourceLevel>
         <targetJDK>1.5</targetJDK>
-        <!--<idea.version>7.0</idea.version>-->
-        <!--<idea.classifier>7027</idea.classifier>-->
+        <idea.version>7.0</idea.version>
+        <idea.classifier>7027</idea.classifier>
     </properties>
 
     <!--<repositories>-->
@@ -51,45 +51,45 @@
     </scm>
 
 
-    <!--<dependencies>-->
-    <!--<dependency>-->
-    <!--<groupId>com.intellij.idea</groupId>-->
-    <!--<artifactId>forms_rt</artifactId>-->
-    <!--<version>${idea.version}</version>-->
-    <!--<classifier>${idea.classifier}</classifier>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-    <!--<groupId>com.intellij.idea</groupId>-->
-    <!--<artifactId>openapi</artifactId>-->
-    <!--<version>${idea.version}</version>-->
-    <!--<classifier>${idea.classifier}</classifier>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-    <!--<groupId>com.intellij.idea</groupId>-->
-    <!--<artifactId>idea</artifactId>-->
-    <!--<version>${idea.version}</version>-->
-    <!--<classifier>${idea.classifier}</classifier>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-    <!--<groupId>com.intellij.idea</groupId>-->
-    <!--<artifactId>annotations</artifactId>-->
-    <!--<version>${idea.version}</version>-->
-    <!--<classifier>${idea.classifier}</classifier>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-    <!--<groupId>com.intellij.idea</groupId>-->
-    <!--<artifactId>extensions</artifactId>-->
-    <!--<version>${idea.version}</version>-->
-    <!--<classifier>${idea.classifier}</classifier>-->
-    <!--</dependency>-->
+    <dependencies>
+        <dependency>
+            <groupId>com.intellij.idea</groupId>
+            <artifactId>forms_rt</artifactId>
+            <version>${idea.version}</version>
+            <classifier>${idea.classifier}</classifier>
+        </dependency>
+        <dependency>
+            <groupId>com.intellij.idea</groupId>
+            <artifactId>openapi</artifactId>
+            <version>${idea.version}</version>
+            <classifier>${idea.classifier}</classifier>
+        </dependency>
+        <dependency>
+            <groupId>com.intellij.idea</groupId>
+            <artifactId>idea</artifactId>
+            <version>${idea.version}</version>
+            <classifier>${idea.classifier}</classifier>
+        </dependency>
+        <dependency>
+            <groupId>com.intellij.idea</groupId>
+            <artifactId>annotations</artifactId>
+            <version>${idea.version}</version>
+            <classifier>${idea.classifier}</classifier>
+        </dependency>
+        <dependency>
+            <groupId>com.intellij.idea</groupId>
+            <artifactId>extensions</artifactId>
+            <version>${idea.version}</version>
+            <classifier>${idea.classifier}</classifier>
+        </dependency>
 
-    <!--<dependency>-->
-    <!--<groupId>junit</groupId>-->
-    <!--<artifactId>junit</artifactId>-->
-    <!--<version>3.8.1</version>-->
-    <!--<scope>test</scope>-->
-    <!--</dependency>-->
-    <!--</dependencies>-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
     <build>
         <pluginManagement>
@@ -126,6 +126,16 @@
                     <configuration>
                         <!-- executed before a release -->
                         <preparationGoals>clean verify</preparationGoals>
+                    </configuration>
+                </plugin>
+
+
+                <plugin>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <configuration>
+                        <descriptors>
+                            <descriptor>src/main/assembly/src.xml</descriptor>
+                        </descriptors>
                     </configuration>
                 </plugin>
             </plugins>
