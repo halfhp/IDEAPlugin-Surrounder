@@ -5,7 +5,7 @@
     <groupId>osmedile.intellij</groupId>
     <artifactId>surrounder</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1</version>
     <name>Surround each line</name>
 
     <url>http://code.google.com/p/surrounder/</url>
