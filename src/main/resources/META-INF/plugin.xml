@@ -5,8 +5,7 @@
     <description>
         <![CDATA[
        <p>
-       Enhance default surround actions of IntelliJ IDEA by providing action
-       which apply a template to each lines selected (instead of the whole selection).<br /><br />
+       Apply a template to each lines selected (instead of the whole selection).<br>
 
        2 actions are available under the Code menu.
        <ul>
