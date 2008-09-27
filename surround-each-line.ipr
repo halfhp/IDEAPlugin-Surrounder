@@ -640,7 +640,7 @@
   <component name="ProjectFileVersion" converted="true" />
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Surround each line.iml" filepath="$PROJECT_DIR$/Surround each line.iml" />
+      <module fileurl="file://$PROJECT_DIR$/surround-each-line.iml" filepath="$PROJECT_DIR$/surround-each-line.iml" />
     </modules>
   </component>
   <component name="ProjectRootConfigurable.UI">
