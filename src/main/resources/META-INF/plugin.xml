@@ -23,6 +23,9 @@
        LOGGER.info("$SELECTION$="+$SELECTION$);
        </pre>
 
+       <br>
+       <br>
+
        <b>Current limitations:</b>
        <ul>
         <li>$END$ variable is ignored</li>

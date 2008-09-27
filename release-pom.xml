@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>osmedile.intellij</groupId>
-    <artifactId>surround-for-each-line</artifactId>
+    <artifactId>surround-each-line</artifactId>
     <packaging>jar</packaging>
     <version>1.1</version>
     <name>Surround each line</name>
