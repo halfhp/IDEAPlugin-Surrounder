@@ -49,7 +49,6 @@ public class TemplateSurroundEachLineHandler implements CodeInsightActionHandler
             //Split each line of text
 
             String selectedText = editor.getSelectionModel().getSelectedText();
-//            int originalEndOffset = editor.getSelectionModel().getSelectionEnd();
 
             final String[] selectedLines;
             if (selectedText != null) {
