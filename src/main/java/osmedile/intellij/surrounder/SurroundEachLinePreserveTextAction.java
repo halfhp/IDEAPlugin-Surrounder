@@ -4,7 +4,7 @@ import com.intellij.codeInsight.CodeInsightActionHandler;
 
 /**
  * @author Olivier Smedile
- * @version $Id$
+ * @version $Id: SurroundEachLinePreserveTextAction.java 13 2008-09-03 15:32:43Z osmedile $
  */
 public class SurroundEachLinePreserveTextAction extends TemplateSurroundEachLineAction {
 

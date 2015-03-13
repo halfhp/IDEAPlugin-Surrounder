@@ -1,8 +1,11 @@
 package osmedile.intellij.surrounder;
 
 import com.intellij.codeInsight.CodeInsightActionHandler;
+import com.intellij.codeInsight.actions.SimpleCodeInsightAction;
 import com.intellij.codeInsight.actions.BaseCodeInsightAction;
 import com.intellij.lang.Language;
+import com.intellij.lang.LanguageSurrounders;
+import com.intellij.lang.surroundWith.SurroundDescriptor;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
@@ -10,7 +13,7 @@ import com.intellij.psi.PsiJavaFile;
 
 /**
  * @author Olivier Smedile
- * @version $Id$
+ * @version $Id: TemplateSurroundEachLineAction.java 13 2008-09-03 15:32:43Z osmedile $
  */
 public class TemplateSurroundEachLineAction extends BaseCodeInsightAction {
 
@@ -21,15 +24,5 @@ public class TemplateSurroundEachLineAction extends BaseCodeInsightAction {
 
     protected CodeInsightActionHandler getHandler() {
         return new TemplateSurroundEachLineHandler(true);
-    }
-
-    protected boolean isValidForFile(Project project, Editor editor,
-                                     PsiFile psifile) {
-        if (psifile instanceof PsiJavaFile) {
-            return true;
-        } else {
-            Language language = psifile.getLanguage();
-            return language.getSurroundDescriptors().length > 0;
-        }
     }
 }

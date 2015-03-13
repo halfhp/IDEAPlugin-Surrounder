@@ -33,16 +33,26 @@
        </p>
        ]]>
     </description>
-    <!--<change-notes>-->
-    <!--<![CDATA[-->
-    <!--<p>-->
-    <!--<h4>Version 1.2</h4>-->
-    <!---->
-    <!--</p>-->
-    <!--]]>-->
-    <!--</change-notes>-->
+    <change-notes>
+        <![CDATA[
+        <p>
+        <h4>Version 1.0.1</h4>
+        <ul>
+            <li>Fix to work with Idea 14</li>
+        </ul>
+        </p>
+        <p>
+        <p>
+        <h4>Version 1.0</h4>
+        <ul>
+            <li>Initial version</li>
+        </ul>
+        </p>
+        <p>
+    ]]>
+    </change-notes>
 
-    <version>1.1</version>
+    <version>1.0.1</version>
     <vendor email="osmedile@gmail.com">Olivier Smedile</vendor>
     <idea-version since-build="7361" />
 
